@@ -13,6 +13,18 @@ resource "ibm_is_security_group" "sg1" {
   vpc  = ibm_is_vpc.vpc.id
 }
 
+resource "ibm_is_security_group_rule" "ingress_openport_ssh" {
+    group     = ibm_is_security_group.sg1.id
+    direction = "inbound"
+    remote    = "0.0.0.0/0"
+
+    tcp {
+      port_min = 22
+      port_max = 22
+    }
+}
+
+
 resource "ibm_is_subnet" "subnet1" {
   name                     = "${var.basename}-subnet1"
   vpc                      = ibm_is_vpc.vpc.id
